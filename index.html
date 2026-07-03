@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Snacklandia — curated indie Asian snacks from Japan, Korea, Taiwan, Thailand & Hong Kong delivered to your door.">
+  <title>Snacklandia — Indie Asian Snack Subscription Box</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23E86A33'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='18' fill='%23FFF8F0'%3E🍱%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --orange: #E86A33;
+      --orange-dark: #C95520;
+      --orange-light: #FF8C55;
+      --cream: #FFF8F0;
+      --cream-dark: #F5EDE0;
+      --white: #FFFFFF;
+      --charcoal: #2D2D2D;
+      --charcoal-light: #4A4A4A;
+      --charcoal-muted: #6B6B6B;
+      --border: rgba(45, 45, 45, 0.12);
+      --shadow: 0 4px 24px rgba(45, 45, 45, 0.08);
+      --shadow-lg: 0 12px 40px rgba(45, 45, 45, 0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --header-h: 72px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --max-w: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── East Asian Frame Motif ── */
+    .frame-corner {
+      position: relative;
+    }
+    .frame-corner::before,
+    .frame-corner::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: var(--orange);
+      border-style: solid;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .frame-corner::before {
+      top: 0; left: 0;
+      border-width: 2px 0 0 2px;
+    }
+    .frame-corner::after {
+      bottom: 0; right: 0;
+      border-width: 0 2px 2px 0;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange) 20%, var(--orange) 80%, transparent);
+      opacity: 0.25;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4 { line-height: 1.25; font-weight: 700; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+      color: var(--charcoal);
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      color: var(--charcoal-muted);
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), box-shadow var(--transition), color var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(232, 106, 51, 0.35);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      box-shadow: 0 6px 24px rgba(232, 106, 51, 0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .btn-secondary:hover {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .btn-block { width: 100%; }
+
+    /* ── Layout ── */
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background: rgba(255, 248, 240, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .logo span { color: var(--orange); }
+
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-desktop a {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--charcoal-light);
+      transition: color var(--transition);
+      position: relative;
+    }
+
+    .nav-desktop a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width var(--transition);
+    }
+
+    .nav-desktop a:hover { color: var(--orange); }
+    .nav-desktop a:hover::after { width: 100%; }
+
+    .header-cta { flex-shrink: 0; }
+
+    .header-cta .btn {
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--charcoal);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Nav Drawer */
+    .nav-mobile {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: min(320px, 85vw);
+      height: 100vh;
+      background: var(--white);
+      box-shadow: -8px 0 32px rgba(45, 45, 45, 0.15);
+      z-index: 1001;
+      transition: right var(--transition);
+      padding: calc(var(--header-h) + 2rem) 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .nav-mobile.open { right: 0; }
+
+    .nav-mobile a {
+      display: block;
+      padding: 0.875rem 0;
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      border-bottom: 1px solid var(--border);
+      transition: color var(--transition), padding-left var(--transition);
+    }
+
+    .nav-mobile a:hover {
+      color: var(--orange);
+      padding-left: 0.5rem;
+    }
+
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 45, 45, 0.4);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition), visibility var(--transition);
+    }
+
+    .nav-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--header-h);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255, 248, 240, 0.92) 0%, rgba(255, 248, 240, 0.75) 45%, rgba(255, 248, 240, 0.55) 100%),
+        url("https://images.unsplash.com/photo-1606491956689-2ea866258177?w=1600&q=80") center/cover no-repeat;
+      z-index: 0;
+    }
+
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(232, 106, 51, 0.06) 39px, rgba(232, 106, 51, 0.06) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(232, 106, 51, 0.06) 39px, rgba(232, 106, 51, 0.06) 40px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-text h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-text p {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--charcoal-light);
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-box-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      box-shadow: var(--shadow-lg);
+      border: 3px solid var(--white);
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: -1rem;
+      left: -1rem;
+      background: var(--white);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-left: 3px solid var(--orange);
+    }
+
+    /* ── PAIN POINTS ── */
+    .pain-points { background: var(--white); }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .pain-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .pain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .pain-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1.25rem;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      border: 2px solid rgba(232, 106, 51, 0.2);
+    }
+
+    .pain-card h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+      color: var(--charcoal);
+    }
+
+    .pain-card p {
+      font-size: 0.9375rem;
+      color: var(--charcoal-muted);
+    }
+
+    .pain-link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--orange);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+    .pain-link:hover { border-bottom-color: var(--orange); }
+
+    /* ── BRAND STORY ── */
+    .brand-story {
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .story-box {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .story-box p {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--charcoal-light);
+      line-height: 1.8;
+    }
+
+    .story-box p + p { margin-top: 1rem; }
+
+    .story-kanji {
+      font-size: 3rem;
+      color: var(--orange);
+      opacity: 0.15;
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-weight: 300;
+      pointer-events: none;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .products { background: var(--white); }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .product-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+
+    .product-body { padding: 1.25rem; }
+
+    .product-badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      background: var(--orange);
+      color: var(--white);
+      margin-bottom: 0.625rem;
+    }
+
+    .product-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-card p {
+      font-size: 0.875rem;
+      color: var(--charcoal-muted);
+      line-height: 1.55;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works { background: var(--cream); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      counter-reset: step;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    .step-num {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.25rem;
+      background: var(--orange);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(232, 106, 51, 0.3);
+    }
+
+    .step h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.625rem;
+    }
+
+    .step p {
+      font-size: 0.9375rem;
+      color: var(--charcoal-muted);
+    }
+
+    .step-connector {
+      display: none;
+    }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--white); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      align-items: stretch;
+    }
+
+    .plan-card {
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .plan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .plan-card.featured {
+      background: var(--white);
+      border-color: var(--orange);
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.04);
+      position: relative;
+    }
+
+    .plan-card.featured:hover { transform: scale(1.04) translateY(-4px); }
+
+    .plan-tag {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--orange);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.375rem 1rem;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .plan-name {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--charcoal);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--charcoal-muted);
+    }
+
+    .plan-desc {
+      font-size: 0.9375rem;
+      color: var(--charcoal-muted);
+      margin: 1rem 0 1.5rem;
+      flex-grow: 1;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 1.75rem;
+    }
+
+    .plan-features li {
+      font-size: 0.875rem;
+      padding: 0.375rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      color: var(--charcoal-light);
+    }
+
+    .plan-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    /* ── LIFESTYLE GRID ── */
+    .lifestyle { background: var(--cream); }
+
+    .lifestyle-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 200px);
+      gap: 1rem;
+    }
+
+    .lifestyle-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .lifestyle-item::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: linear-gradient(transparent, rgba(45, 45, 45, 0.75));
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .lifestyle-item:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+      background-image: url("https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80");
+    }
+    .lifestyle-item:nth-child(2) {
+      background-image: url("https://images.unsplash.com/photo-1611162617474-5b21e939e113?w=600&q=80");
+    }
+    .lifestyle-item:nth-child(3) {
+      background-image: url("https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600&q=80");
+    }
+    .lifestyle-item:nth-child(4) {
+      background-image: url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80");
+    }
+    .lifestyle-item:nth-child(5) {
+      background-image: url("https://images.unsplash.com/photo-1511882150382-421056c89033?w=600&q=80");
+    }
+
+    /* ── TRUST & TESTIMONIALS ── */
+    .trust { background: var(--white); }
+
+    .trust-banner {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 3rem;
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .testimonial {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .testimonial::before {
+      content: "\201C";
+      font-size: 3rem;
+      color: var(--orange);
+      opacity: 0.3;
+      position: absolute;
+      top: 0.5rem;
+      left: 1rem;
+      line-height: 1;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-stars {
+      color: var(--orange);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 2px;
+    }
+
+    .testimonial p {
+      font-size: 0.9375rem;
+      color: var(--charcoal-light);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .testimonial-loc {
+      font-size: 0.75rem;
+      color: var(--charcoal-muted);
+    }
+
+    /* ── LEAD CAPTURE ── */
+    .lead-capture {
+      background: var(--cream);
+      position: relative;
+    }
+
+    .lead-box {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.375rem;
+      color: var(--charcoal);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--cream);
+      color: var(--charcoal);
+      transition: border-color var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: var(--white);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--charcoal);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 3.5rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-brand .logo {
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      line-height: 1.65;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col li { margin-bottom: 0.5rem; }
+
+    .footer-col a {
+      font-size: 0.875rem;
+      transition: color var(--transition);
+    }
+
+    .footer-col a:hover { color: var(--orange-light); }
+
+    .social-icons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      transition: background var(--transition);
+    }
+
+    .social-icon:hover { background: var(--orange); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8125rem;
+    }
+
+    /* ── TABLET (768px – 1024px) ── */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text p { margin-left: auto; margin-right: auto; }
+
+      .hero-visual { max-width: 520px; margin: 0 auto; }
+
+      .hero-badge { left: 50%; transform: translateX(-50%); bottom: -1.5rem; }
+
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+      .plan-card.featured { transform: none; }
+      .plan-card.featured:hover { transform: translateY(-4px); }
+
+      .lifestyle-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+      }
+
+      .lifestyle-item:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 260px;
+      }
+
+      .lifestyle-item { min-height: 180px; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── MOBILE (< 768px) ── */
+    @media (max-width: 767px) {
+      :root { --header-h: 64px; }
+
+      section { padding: 3.5rem 0; }
+
+      .nav-desktop,
+      .header-cta { display: none; }
+
+      .hamburger { display: flex; }
+
+      .pain-grid,
+      .steps,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      .product-grid { grid-template-columns: 1fr; }
+
+      .lifestyle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lifestyle-item:nth-child(1) { grid-column: span 1; }
+
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      .story-box { padding: 2rem 1.5rem; }
+
+      .lead-box { padding: 1.75rem; }
+    }
+
+    /* ── TABLET-ONLY pain grid 2-col ── */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .pain-grid { grid-template-columns: repeat(3, 1fr); }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+      .testimonials { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="top">
+    <div class="header-inner">
+      <a href="#top" class="logo">Snack<span>landia</span></a>
+
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="#pain-points">Why Us</a>
+        <a href="#story">Our Story</a>
+        <a href="#box">The Box</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Plans</a>
+        <a href="#reviews">Reviews</a>
+      </nav>
+
+      <div class="header-cta">
+        <a href="#pricing" class="btn btn-secondary">Subscribe Now</a>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="nav-overlay" id="navOverlay"></div>
+  <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
+    <a href="#pain-points">Why Us</a>
+    <a href="#story">Our Story</a>
+    <a href="#box">The Box</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#pricing">Plans</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#subscribe">Subscribe</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <div class="hero-text frame-corner">
+        <h1>Taste Asia's Best-Kept <em>Snack Secrets</em></h1>
+        <p>Curated, rare indie treats from Japan, Korea, Taiwan, Thailand, and Hong Kong — handpicked and delivered straight to your doorstep every month.</p>
+        <a href="#pricing" class="btn btn-primary">Get Your Snack Box</a>
+      </div>
+      <div class="hero-visual">
+        <img
+          class="hero-box-img"
+          src="https://images.unsplash.com/photo-1599599810764-bcde5a16007e?w=800&q=80"
+          alt="Vibrant assortment of indie Asian snacks in a curated subscription box"
+          loading="eager"
+        >
+        <div class="hero-badge">🌏 5 Countries · 12+ Snacks · Monthly</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PAIN POINTS -->
+  <section class="pain-points" id="pain-points">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Sound Familiar?</span>
+      <h2 class="section-title">Your Snack Shelf Deserves Better</h2>
+      <p class="section-subtitle">We get it — finding authentic Asian indie snacks shouldn't feel like a treasure hunt with a bad ending.</p>
+
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon">😴</div>
+          <h3>The Boredom Fatigue</h3>
+          <p>Tired of the same mass-produced, oversweet local supermarket snacks? Your taste buds deserve a passport stamp, not another repeat offender from aisle seven.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🚧</div>
+          <h3>The Accessibility Barrier</h3>
+          <p>You crave authentic, trending indie treats from Asia but can't source them without sky-high import fees, long wait times, or sketchy third-party websites.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">⏳</div>
+          <h3>The FOMO Effect</h3>
+          <p>Limited-edition flavors drop in Tokyo, Seoul, and Hong Kong — and vanish before you even hear about them. You're missing the snack culture revolution.</p>
+        </div>
+      </div>
+
+      <a href="#pricing" class="pain-link">See how Snacklandia fixes this →</a>
+    </div>
+  </section>
+
+  <!-- BRAND STORY -->
+  <section class="brand-story" id="story">
+    <div class="container">
+      <span class="section-label" style="display:block;text-align:center;">Our Mission</span>
+      <h2 class="section-title" style="text-align:center;">Spotlight on Indie Creators</h2>
+      <div class="story-box frame-corner">
+        <span class="story-kanji" aria-hidden="true">解</span>
+        <p>Behind every bag of yuzu pepper rice crackers and every tube of ghost-pepper tteokbokki chips is a small-batch maker pouring heart into flavors you'll never find at a megastore. These artisans deserve the spotlight — and adventurous eaters like you deserve access to their craft.</p>
+        <p>Snacklandia is the bridge: we hunt down the rarest indie treats across East Asia so you can skip the import headaches and dive straight into flavor discovery. Consider us your cure for snack boredom and your ticket to the cultures of Tokyo, Seoul, Taipei, Bangkok, and Hong Kong — one delicious box at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S IN THE BOX -->
+  <section class="products" id="box">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Peek Inside</span>
+      <h2 class="section-title">What's in the Box</h2>
+      <p class="section-subtitle">Every month brings a new lineup of fictional-yet-totally-believable indie favorites. Here's a taste of what subscribers rave about.</p>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80" alt="Matcha crunch snack" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇯🇵 Japan</span>
+            <h3>Hokkaido Sea Salt Matcha Crunch</h3>
+            <p>Shatteringly crisp senbei layered with ceremonial-grade matcha and a whisper of ocean salt — earthy, bittersweet, and impossibly moreish.</p>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1617093727343-374698b026c6?w=600&q=80" alt="Spicy rice cakes" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇰🇷 Korea</span>
+            <h3>Seoul Spicy Ghost Pepper Rice Cakes</h3>
+            <p>Air-puffed tteokbokki chips dusted with gochugaru and ghost pepper — a slow-building heat that keeps you reaching for one more.</p>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1587132139917-7b974d7340c0?w=600&q=80" alt="Taiwanese pineapple cake bites" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇹🇼 Taiwan</span>
+            <h3>Sun Moon Lake Pineapple Cloud Bites</h3>
+            <p>Flaky, melt-on-your-tongue pastry pockets filled with caramelized golden pineapple — sunshine in every miniature square.</p>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80" alt="Thai chili mango strips" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇹🇭 Thailand</span>
+            <h3>Bangkok Chili-Mango Leather Strips</h3>
+            <p>Chewy dried mango ribbons kissed with prik kee noo chili and lime — sweet, sour, and fiery in a single addictive pull.</p>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1606313564200-e75d5e304b30?w=600&q=80" alt="Hong Kong egg waffle crisps" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇭🇰 Hong Kong</span>
+            <h3>Mong Kok Egg Waffle Crisps</h3>
+            <p>Street-market gai daan jai reimagined as shatter-crisp wafers with a custardy aroma and a hint of vanilla bean.</p>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Japanese mochi chocolate" loading="lazy">
+          <div class="product-body">
+            <span class="product-badge">🇯🇵 Japan</span>
+            <h3>Kyoto Kinako Mochi Chocolate Cubes</h3>
+            <p>Silky dark chocolate enrobing pillowy mochi, rolled in nutty roasted soybean powder — a textural symphony in four bites.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Simple &amp; Seamless</span>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Three steps from curious to crunching. No complicated sign-up, no surprises.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Choose Your Plan</h3>
+          <p>Pick a monthly subscription, bi-monthly value plan, or a one-time gift box for someone special.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Box is Curated</h3>
+          <p>Our team scouts indie makers across five countries and handpicks 12+ authentic treats you'll never find locally.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Delivered to Your Door</h3>
+          <p>Fresh monthly delivery with reliable tracking — open the box, snap a pic, and prepare for your new obsession.</p>
+        </div>
+      </div>
+
+      <a href="#pricing" class="pain-link" style="margin-top:2.5rem;">Compare plans &amp; pricing →</a>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Flexible Plans</span>
+      <h2 class="section-title">Choose Your Snack Adventure</h2>
+      <p class="section-subtitle">Transparent pricing, no hidden fees. Cancel or pause anytime.</p>
+
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-name">Monthly Plan</div>
+          <div class="plan-price">$29<span>/month</span></div>
+          <p class="plan-desc">Perfect for snack explorers who want a fresh curated box every month.</p>
+          <ul class="plan-features">
+            <li>12+ indie snacks per box</li>
+            <li>5-country rotation</li>
+            <li>Free domestic shipping</li>
+            <li>Cancel anytime</li>
+          </ul>
+          <a href="#subscribe" class="btn btn-primary btn-block">Select Plan</a>
+        </div>
+
+        <div class="plan-card featured">
+          <span class="plan-tag">Most Popular</span>
+          <div class="plan-name">Bi-Monthly Plan</div>
+          <div class="plan-price">$25<span>/month</span></div>
+          <p class="plan-desc">Our best value — same epic curation, billed every two months for serious savings.</p>
+          <ul class="plan-features">
+            <li>Everything in Monthly</li>
+            <li>Save $8 per cycle</li>
+            <li>Priority seasonal drops</li>
+            <li>Exclusive member flavors</li>
+          </ul>
+          <a href="#subscribe" class="btn btn-primary btn-block">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-name">Gift Box</div>
+          <div class="plan-price">$34<span> one-time</span></div>
+          <p class="plan-desc">A one-time curated box — the perfect gift for friends, coworkers, or your snackiest self.</p>
+          <ul class="plan-features">
+            <li>12+ premium snacks</li>
+            <li>Gift-ready packaging</li>
+            <li>Personalized note card</li>
+            <li>No subscription required</li>
+          </ul>
+          <a href="#subscribe" class="btn btn-primary btn-block">Select Plan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIFESTYLE -->
+  <section class="lifestyle" id="lifestyle">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Snack Moments</span>
+      <h2 class="section-title">Made for Your Everyday Adventures</h2>
+      <p class="section-subtitle">From late-night gaming marathons to desk-side pick-me-ups — Snacklandia fits right in.</p>
+
+      <div class="lifestyle-grid">
+        <div class="lifestyle-item" data-label="Late-Night Gaming Sessions"></div>
+        <div class="lifestyle-item" data-label="Anime Watch Parties"></div>
+        <div class="lifestyle-item" data-label="Office Desk Treats"></div>
+        <div class="lifestyle-item" data-label="Study Break Fuel"></div>
+        <div class="lifestyle-item" data-label="Weekend Picnics"></div>
+      </div>
+
+      <a href="#pricing" class="pain-link" style="margin-top:2rem;">Start snacking smarter →</a>
+    </div>
+  </section>
+
+  <!-- TRUST & TESTIMONIALS -->
+  <section class="trust" id="reviews">
+    <div class="container">
+      <div class="trust-banner">
+        Join 12,000+ happy adventurous snackers across the globe.
+      </div>
+
+      <div class="testimonials">
+        <blockquote class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"I've lived in Tokyo for two years and Snacklandia still surprises me every month. The Hokkaido matcha crunch alone is worth the subscription — my roommate and I fight over the last piece."</p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar">MR</div>
+            <div>
+              <div class="testimonial-name">Mika Rodriguez</div>
+              <div class="testimonial-loc">Portland, OR · Monthly subscriber since 2024</div>
+            </div>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"Sent the Gift Box to my brother for his birthday. He texted me photos of every single item like it was Christmas morning. Already signed up for bi-monthly myself."</p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar">JL</div>
+            <div>
+              <div class="testimonial-name">James Liu</div>
+              <div class="testimonial-loc">Austin, TX · Gift Box → Bi-Monthly</div>
+            </div>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"As a food blogger, I've tried every subscription box out there. Snacklandia is the only one that consistently delivers snacks I've genuinely never seen before. The curation is elite."</p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar">SP</div>
+            <div>
+              <div class="testimonial-name">Sarah Park</div>
+              <div class="testimonial-loc">Brooklyn, NY · Bi-Monthly subscriber</div>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD CAPTURE -->
+  <section class="lead-capture" id="subscribe">
+    <div class="container" style="text-align:center;">
+      <span class="section-label">Almost There</span>
+      <h2 class="section-title">Start Your Flavor Journey</h2>
+      <p class="section-subtitle">Tell us a little about yourself — we'll handle the rest. No long forms, no spam, just snacks.</p>
+
+      <div class="lead-box frame-corner">
+        <form id="leadForm" action="#" method="post" novalidate>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Alex Chen" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="alex@example.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="snackProfile">Preferred Snack Profile</label>
+            <select id="snackProfile" name="snackProfile" required>
+              <option value="" disabled selected>Select your vibe</option>
+              <option value="sweet">Sweet Tooth — mochi, cakes &amp; confections</option>
+              <option value="spicy">Heat Seeker — chili, wasabi &amp; bold spice</option>
+              <option value="savory">Savory Explorer — crackers, chips &amp; umami</option>
+              <option value="adventurous">Surprise Me — mix of everything</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Get Your Snack Box</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="faq">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo">Snack<span>landia</span></span>
+          <p>Curating the best indie Asian snacks for adventurous eaters worldwide. Flavor without borders.</p>
+          <div class="social-icons">
+            <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+            <a href="#" class="social-icon" aria-label="TikTok">TK</a>
+            <a href="#" class="social-icon" aria-label="Twitter/X">X</a>
+            <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Subscription Policy</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#story">About Us</a></li>
+            <li><a href="#box">Our Snacks</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Snacklandia. All rights reserved.</span>
+        <span>Made with 🧡 for snack lovers everywhere.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var hamburger = document.getElementById('hamburger');
+      var navMobile = document.getElementById('navMobile');
+      var navOverlay = document.getElementById('navOverlay');
+      var mobileLinks = navMobile.querySelectorAll('a');
+
+      function openMenu() {
+        hamburger.classList.add('active');
+        navMobile.classList.add('open');
+        navOverlay.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.setAttribute('aria-label', 'Close menu');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        navMobile.classList.remove('open');
+        navOverlay.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open menu');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', function () {
+        navMobile.classList.contains('open') ? closeMenu() : openMenu();
+      });
+
+      navOverlay.addEventListener('click', closeMenu);
+
+      mobileLinks.forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      document.getElementById('leadForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('fullName').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var profile = document.getElementById('snackProfile').value;
+        if (!name || !email || !profile) return;
+        alert('Welcome to Snacklandia, ' + name + '! Check your inbox at ' + email + ' for next steps.');
+        this.reset();
+      });
+    })();
+  </script>
+</body>
+</html>
