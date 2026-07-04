@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -323,7 +324,7 @@
       inset: 0;
       background:
         linear-gradient(135deg, rgba(255, 248, 240, 0.92) 0%, rgba(255, 248, 240, 0.75) 45%, rgba(255, 248, 240, 0.55) 100%),
-        url("https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80") center/cover no-repeat;
+        url("https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80") center/cover no-repeat;
       z-index: 0;
     }
 
@@ -550,50 +551,74 @@
       line-height: 1.55;
     }
 
-    /* ── HOW IT WORKS ── */
-    .how-it-works { background: var(--cream); }
+/* ── HOW IT WORKS ── */
+.how-it-works { background: var(--cream); }
 
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      counter-reset: step;
-    }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  counter-reset: step;
+}
 
-    .step {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      position: relative;
-    }
+.step {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+  background: var(--cream);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
 
-    .step-num {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 1.25rem;
-      background: var(--orange);
-      color: var(--white);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      font-weight: 800;
-      box-shadow: 0 4px 16px rgba(232, 106, 51, 0.3);
-    }
+.step-num {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1.25rem;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(232, 106, 51, 0.3);
+}
 
-    .step h3 {
-      font-size: 1.125rem;
-      margin-bottom: 0.625rem;
-    }
+.step h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.625rem;
+}
 
-    .step p {
-      font-size: 0.9375rem;
-      color: var(--charcoal-muted);
-    }
+.step p {
+  font-size: 0.9375rem;
+  color: var(--charcoal-muted);
+}
 
-    .step-connector {
-      display: none;
-    }
+.step-connector {
+  display: none;
+}
+
+/* ── CONNECTOR LINES (Desktop Only) ── */
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100% + 2rem);
+  height: 2px;
+  border-top: 2px dashed rgba(232, 106, 51, 0.2);
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  .step:not(:last-child)::after {
+    display: none;
+  }
+}
 
     /* ── PRICING ── */
     .pricing { background: var(--white); }
@@ -728,19 +753,19 @@
     .lifestyle-item:nth-child(1) {
       grid-column: span 2;
       grid-row: span 2;
-      background-image: url("https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80");
+      background-image: url("https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80");
     }
     .lifestyle-item:nth-child(2) {
-      background-image: url("https://images.unsplash.com/photo-1611162617474-5b21e939e113?w=600&q=80");
+      background-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80");
     }
     .lifestyle-item:nth-child(3) {
-      background-image: url("https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600&q=80");
+      background-image: url("https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80");
     }
     .lifestyle-item:nth-child(4) {
-      background-image: url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80");
+      background-image: url("https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&q=80");
     }
     .lifestyle-item:nth-child(5) {
-      background-image: url("https://images.unsplash.com/photo-1511882150382-421056c89033?w=600&q=80");
+      background-image: url("https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80");
     }
 
     /* ── TRUST & TESTIMONIALS ── */
@@ -1092,11 +1117,10 @@
         <div class="hero-image-card">
           <img
             class="hero-box-img"
-            src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&q=80"
-            alt="Vibrant assortment of indie Asian snacks in a curated subscription box"
+            src="Snackbox.jpeg"
+            alt="Vibrant curated Asian snack subscription box overflowing with colourful indie treats"
             loading="eager"
           >
-          <div class="hero-badge">🌏 5 Countries · 12+ Snacks · Monthly</div>
         </div>
       </div>
     </div>
@@ -1109,7 +1133,7 @@
     <div class="container" style="text-align:center;">
       <span class="section-label">Sound Familiar?</span>
       <h2 class="section-title">Your Snack Shelf Deserves Better</h2>
-      <p class="section-subtitle">We get it — finding authentic Asian indie snacks shouldn't feel like a treasure hunt with a bad ending.</p>
+      <p class="section-subtitle">We get it. Finding authentic Asian indie snacks shouldn't feel like a treasure hunt with a bad ending.</p>
 
       <div class="pain-grid">
         <div class="pain-card">
@@ -1129,7 +1153,7 @@
         </div>
       </div>
 
-      <a href="#pricing" class="pain-link">See how Snacklandia fixes this →</a>
+      <a href="#how-it-works" class="pain-link">See how Snacklandia fixes this →</a>
     </div>
   </section>
 
@@ -1140,7 +1164,8 @@
       <h2 class="section-title" style="text-align:center;">Spotlight on Indie Creators</h2>
       <div class="story-box frame-corner">
         <span class="story-kanji" aria-hidden="true">解</span>
-        <p>Behind every bag of yuzu pepper rice crackers and ghost-pepper tteokbokki chips is a small-batch maker pouring heart into flavors you'll never find at a megastore. Snacklandia hunts down the rarest indie treats across East Asia so you can skip import headaches and dive straight into flavor discovery. Consider us your cure for snack boredom — and your ticket to Tokyo, Seoul, Taipei, Bangkok, and Hong Kong, one delicious box at a time.</p>
+        <p> We started Snacklandia because we were tired of mass-produced, artificial supermarket snacks that lacked soul. We hunt down rare, authentic treasures and deliver them straight to you, cutting out the high import fees and language barriers so your snack shelf finally gets the passport it deserves. </p>
+        <p> Happy tummy = happy life!</p>
       </div>
     </div>
   </section>
@@ -1154,56 +1179,56 @@
 
       <div class="product-grid">
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80" alt="Matcha crunch snack" loading="lazy">
+          <img class="product-img" src="japan.png" alt="Hokkaido matcha green tea senbei crunch snack" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇯🇵 Japan</span>
             <h3>Hokkaido Sea Salt Matcha Crunch</h3>
-            <p>Shatteringly crisp senbei layered with ceremonial-grade matcha and a whisper of ocean salt — earthy, bittersweet, and impossibly moreish.</p>
+            <p>Crispy rice senbei glazed with authentic ceremonial-grade matcha and finished with a pinch of sea salt. It’s earthy, slightly bittersweet, and the perfect balance of sweet and savory.</p>
           </div>
         </article>
 
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&q=80" alt="Seoul spicy rice cake snacks" loading="lazy">
+          <img class="product-img" src="korea.jpg" alt="Spicy ghost pepper tteokbokki rice cake snack" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇰🇷 Korea</span>
-            <h3>Seoul Spicy Ghost Pepper Rice Cakes</h3>
-            <p>Air-puffed tteokbokki chips dusted with gochugaru and ghost pepper — a slow-building heat that keeps you reaching for one more.</p>
+            <h3>Spicy Ghost Pepper Rice Cakes</h3>
+            <p>Puffed tteokbokki rice chips dusted in sweet gochugaru and real ghost pepper. It starts out sweet, but a slow-building heat kicks in that will have you reaching for more.</p>
           </div>
         </article>
 
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80" alt="Taiwanese pineapple pastry bites" loading="lazy">
+          <img class="product-img" src="taiwan.jpg" alt="Taiwanese pineapple cake feng li su flaky golden pastry" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇹🇼 Taiwan</span>
             <h3>Sun Moon Lake Pineapple Cloud Bites</h3>
-            <p>Flaky, melt-on-your-tongue pastry pockets filled with caramelized golden pineapple — sunshine in every miniature square.</p>
+            <p>Traditional, buttery shortcrust pastry pockets packed with a rich, chewy, caramelized golden pineapple filling. A classic Taiwanese night-market comfort treat that melts in your mouth.</p>
           </div>
         </article>
 
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80" alt="Thai chili mango strips" loading="lazy">
+          <img class="product-img" src="thai.jpg"alt="Bangkok chili mango leather strips sweet spicy Thai dried fruit snack" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇹🇭 Thailand</span>
             <h3>Bangkok Chili-Mango Leather Strips</h3>
-            <p>Chewy dried mango ribbons kissed with prik kee noo chili and lime — sweet, sour, and fiery in a single addictive pull.</p>
+            <p>Tangy, chewy dried mango ribbons tossed in spicy prik kee noo chili and a squeeze of fresh lime. It’s sweet, intensely sour, and packing serious heat in every single pull.</p>
           </div>
         </article>
 
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80" alt="Hong Kong egg waffle crisps" loading="lazy">
+          <img class="product-img" src="hk.jpg" alt="Hong Kong egg waffle bubble waffle gai daan jai crispy street snack" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇭🇰 Hong Kong</span>
             <h3>Mong Kok Egg Waffle Crisps</h3>
-            <p>Street-market gai daan jai reimagined as shatter-crisp wafers with a custardy aroma and a hint of vanilla bean.</p>
+            <p>Your favorite street-market gai daan jai reimagined into thin, crispy snack wafers. They have that signature rich, sweet egg custard aroma with a warm dash of vanilla.</p>
           </div>
         </article>
 
         <article class="product-card">
-          <img class="product-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Japanese mochi chocolate" loading="lazy">
+          <img class="product-img" src="jap.webp" alt="Kyoto kinako mochi chocolate cubes Japanese wagashi confection" loading="lazy">
           <div class="product-body">
             <span class="product-badge">🇯🇵 Japan</span>
             <h3>Kyoto Kinako Mochi Chocolate Cubes</h3>
-            <p>Silky dark chocolate enrobing pillowy mochi, rolled in nutty roasted soybean powder — a textural symphony in four bites.</p>
+            <p>Chewy, pillowy mochi bites covered in rich dark chocolate and generously dusted with toasted soybean powder. Deeply nutty, sweet, and incredibly satisfying to chew.</p>
           </div>
         </article>
       </div>
@@ -1220,18 +1245,18 @@
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
-          <h3>Choose Your Plan</h3>
-          <p>Pick a monthly subscription, bi-monthly value plan, or a one-time gift box for someone special.</p>
+          <h3>1. Pick Your Adventure</h3>
+          <p>Select from our flexible monthly subscription, bi-monthly value plan, or grab a one-time gift box for a friend.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <h3>Box is Curated</h3>
-          <p>Our team scouts indie makers across five countries and handpicks 12+ authentic treats you'll never find locally.</p>
+          <h3>2. We Hunt the Flavors</h3>
+          <p>Our team scouts hidden indie creators across Asia, packing your box with 12+ rare snacks you can't find at local supermarkets.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <h3>Delivered to Your Door</h3>
-          <p>Fresh monthly delivery with reliable tracking — open the box, snap a pic, and prepare for your new obsession.</p>
+          <h3>3. Unbox &amp; Dig In</h3>
+          <p>Your crate lands right at your doorstep with fresh batches and tracking. Tear it open, snap a pic, and find your new obsession!</p>
         </div>
       </div>
 
